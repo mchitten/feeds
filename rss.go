@@ -15,6 +15,8 @@ type rssFeedXml struct {
 	XMLName          xml.Name `xml:"rss"`
 	Version          string   `xml:"version,attr"`
 	ContentNamespace string   `xml:"xmlns:content,attr"`
+	ItunesNamespace  string   `xml:"xmlns:itunes,attr"`
+	GoogleNamespace  string   `xml:"xmlns:googleplay,attr"`
 	Channel          *RssFeed
 }
 
@@ -52,6 +54,7 @@ type RssFeed struct {
 	PubDate        string   `xml:"pubDate,omitempty"`       // created or updated
 	LastBuildDate  string   `xml:"lastBuildDate,omitempty"` // updated used
 	Category       string   `xml:"category,omitempty"`
+	ItunesCategory string   `xml:"itunes:category,omitempty"`
 	Generator      string   `xml:"generator,omitempty"`
 	Docs           string   `xml:"docs,omitempty"`
 	Cloud          string   `xml:"cloud,omitempty"`
@@ -143,6 +146,7 @@ func (r *Rss) RssFeed() *RssFeed {
 		PubDate:        pub,
 		LastBuildDate:  build,
 		Copyright:      r.Copyright,
+		ItunesCategory: r.Category,
 		Image:          image,
 	}
 	for _, i := range r.Items {
@@ -164,5 +168,7 @@ func (r *RssFeed) FeedXml() interface{} {
 		Version:          "2.0",
 		Channel:          r,
 		ContentNamespace: "http://purl.org/rss/1.0/modules/content/",
+		ItunesNamespace:  "http://www.itunes.com/dtds/podcast-1.0.dtd",
+		GoogleNamespace:  "http://www.google.com/schemas/play-podcasts/1.0",
 	}
 }

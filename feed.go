@@ -43,6 +43,7 @@ type Feed struct {
 	Link        *Link
 	Description string
 	Author      *Author
+	Category    string
 	Updated     time.Time
 	Created     time.Time
 	Id          string
