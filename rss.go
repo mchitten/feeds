@@ -61,6 +61,7 @@ type RssFeed struct {
 	LastBuildDate  string   `xml:"lastBuildDate,omitempty"` // updated used
 	Category       string   `xml:"category,omitempty"`
 	ItunesCategory *itunesCategory
+	Author         string `xml:"author,omitempty"`
 	ItunesAuthor   string `xml:"itunes:author,omitempty"`
 	Generator      string `xml:"generator,omitempty"`
 	Docs           string `xml:"docs,omitempty"`
@@ -161,6 +162,7 @@ func (r *Rss) RssFeed() *RssFeed {
 		Link:           r.Link.Href,
 		Description:    r.Description,
 		ManagingEditor: author,
+		Author:         author,
 		ItunesAuthor:   author,
 		PubDate:        pub,
 		LastBuildDate:  build,
