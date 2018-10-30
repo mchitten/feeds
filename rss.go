@@ -12,12 +12,11 @@ import (
 
 // private wrapper around the RssFeed which gives us the <rss>..</rss> xml
 type rssFeedXml struct {
-	XMLName          xml.Name `xml:"rss"`
-	Version          string   `xml:"version,attr"`
-	ContentNamespace string   `xml:"xmlns:content,attr"`
-	ItunesNamespace  string   `xml:"xmlns:itunes,attr"`
-	GoogleNamespace  string   `xml:"xmlns:googleplay,attr"`
-	Channel          *RssFeed
+	XMLName         xml.Name `xml:"rss"`
+	Version         string   `xml:"version,attr"`
+	ItunesNamespace string   `xml:"xmlns:itunes,attr"`
+	GoogleNamespace string   `xml:"xmlns:googleplay,attr"`
+	Channel         *RssFeed
 }
 
 type RssContent struct {
@@ -167,10 +166,9 @@ func (r *Rss) FeedXml() interface{} {
 // return an XML-ready object for an RssFeed object
 func (r *RssFeed) FeedXml() interface{} {
 	return &rssFeedXml{
-		Version:          "2.0",
-		Channel:          r,
-		ContentNamespace: "http://purl.org/rss/1.0/modules/content/",
-		ItunesNamespace:  "http://www.itunes.com/dtds/podcast-1.0.dtd",
-		GoogleNamespace:  "http://www.google.com/schemas/play-podcasts/1.0",
+		Version:         "2.0",
+		Channel:         r,
+		ItunesNamespace: "http://www.itunes.com/dtds/podcast-1.0.dtd",
+		GoogleNamespace: "http://www.google.com/schemas/play-podcasts/1.0",
 	}
 }
