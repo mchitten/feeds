@@ -7,6 +7,7 @@ package feeds
 import (
 	"encoding/xml"
 	"fmt"
+	"strings"
 	"time"
 )
 
@@ -146,6 +147,15 @@ func (r *Rss) RssFeed() *RssFeed {
 		image = &RssImage{Url: r.Image.Url, Title: r.Image.Title, Link: r.Image.Link, Width: r.Image.Width, Height: r.Image.Height}
 	}
 
+	var category *itunesCategory
+	if r.Category != "" {
+		cat := strings.Split(r.Category, ":")
+		category = &itunesCategory{Text: cat[0]}
+		if len(cat) > 1 {
+			category.ItunesCategory = &itunesCategory{Text: strings.TrimSpace(cat[1])}
+		}
+	}
+
 	channel := &RssFeed{
 		Title:          r.Title,
 		Link:           r.Link.Href,
@@ -155,7 +165,7 @@ func (r *Rss) RssFeed() *RssFeed {
 		PubDate:        pub,
 		LastBuildDate:  build,
 		Copyright:      r.Copyright,
-		ItunesCategory: &itunesCategory{Text: r.Category},
+		ItunesCategory: category,
 		Image:          image,
 	}
 	for _, i := range r.Items {
