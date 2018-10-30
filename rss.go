@@ -89,6 +89,7 @@ type RssItem struct {
 	PubDate        string `xml:"pubDate,omitempty"` // created or updated
 	Source         string `xml:"source,omitempty"`
 	ItunesDuration string `xml:"itunes:duration,omitempty"`
+	ItunesAuthor   string `xml:"itunes:author,omitempty"`
 }
 
 type RssEnclosure struct {
@@ -127,6 +128,7 @@ func newRssItem(i *Item) *RssItem {
 
 	if i.Author != nil {
 		item.Author = i.Author.Name
+		item.ItunesAuthor = i.Author.Name
 	}
 	return item
 }
