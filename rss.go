@@ -41,6 +41,12 @@ type RssTextInput struct {
 	Link        string   `xml:"link"`
 }
 
+type itunesCategory struct {
+	XMLName        xml.Name `xml:"itunes:category"`
+	Text           string   `xml:"text,attr"`
+	ItunesCategory *itunesCategory
+}
+
 type RssFeed struct {
 	XMLName        xml.Name `xml:"channel"`
 	Title          string   `xml:"title"`       // required
@@ -53,14 +59,15 @@ type RssFeed struct {
 	PubDate        string   `xml:"pubDate,omitempty"`       // created or updated
 	LastBuildDate  string   `xml:"lastBuildDate,omitempty"` // updated used
 	Category       string   `xml:"category,omitempty"`
-	ItunesCategory string   `xml:"itunes:category,omitempty"`
-	Generator      string   `xml:"generator,omitempty"`
-	Docs           string   `xml:"docs,omitempty"`
-	Cloud          string   `xml:"cloud,omitempty"`
-	Ttl            int      `xml:"ttl,omitempty"`
-	Rating         string   `xml:"rating,omitempty"`
-	SkipHours      string   `xml:"skipHours,omitempty"`
-	SkipDays       string   `xml:"skipDays,omitempty"`
+	ItunesCategory *itunesCategory
+	ItunesAuthor   string `xml:"itunes:author,omitempty"`
+	Generator      string `xml:"generator,omitempty"`
+	Docs           string `xml:"docs,omitempty"`
+	Cloud          string `xml:"cloud,omitempty"`
+	Ttl            int    `xml:"ttl,omitempty"`
+	Rating         string `xml:"rating,omitempty"`
+	SkipHours      string `xml:"skipHours,omitempty"`
+	SkipDays       string `xml:"skipDays,omitempty"`
 	Image          *RssImage
 	TextInput      *RssTextInput
 	Items          []*RssItem
@@ -144,10 +151,11 @@ func (r *Rss) RssFeed() *RssFeed {
 		Link:           r.Link.Href,
 		Description:    r.Description,
 		ManagingEditor: author,
+		ItunesAuthor:   author,
 		PubDate:        pub,
 		LastBuildDate:  build,
 		Copyright:      r.Copyright,
-		ItunesCategory: r.Category,
+		ItunesCategory: &itunesCategory{Text: r.Category},
 		Image:          image,
 	}
 	for _, i := range r.Items {
